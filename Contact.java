@@ -10,6 +10,20 @@ public class Contact {
     int phone_no;
     String Email;
 
+    @Override
+    public String toString() {
+        return "Contact | " +
+                "first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip=" + zip +
+                ", phone_no=" + phone_no +
+                ", Email='" + Email + '\'' +
+                " |";
+    }
+
     public String getFirst_name() {
         return first_name;
     }
@@ -74,3 +88,4 @@ public class Contact {
         Email = email;
     }
 }
+
