@@ -8,12 +8,10 @@ public class AddressBook {
     public static void main(String[] args) {
         System.out.println("welcome to the AddressBook program.\n..............................");
 
-        System.out.println("please enter no. of people : ");
-        int n = sc.nextInt();
-        Contact[] contact = new Contact[n];
+        Contact[] contact = new Contact[0];
         AddressBook addressBook = new AddressBook();
-        int ch;
-        do {
+        int choice = 0;
+        while (choice != 5) {
             System.out.println("enter your choice");
 
             System.out.println("1: add contact");
@@ -21,36 +19,35 @@ public class AddressBook {
             System.out.println("3: delete contact");
             System.out.println("4: print");
             System.out.println("5: exit");
-            ch = sc.nextInt();
+            choice = sc.nextInt();
 
-            switch (ch) {
+            switch (choice) {
                 case 1:
-                    addressBook.add_Contact(contact);
+                    addressBook.addContact(contact);
                     break;
                 case 2:
-                    addressBook.edit_Contact(contact);
+                    addressBook.editContact(contact);
                     break;
                 case 3:
-                    addressBook.delete_Contact(contact);
+                    addressBook.deleteContact(contact);
                     System.out.println("deleted successfully");
                     break;
                 case 4:
-                    addressBook.print_Contact(contact);
+                    addressBook.printContact(contact);
                     break;
                 default:
                     break;
             }
         }
-        while (ch != 5);
     }
 
-    public void print_Contact(Contact[] ar) {
+    public void printContact(Contact[] ar) {
         for (int i = 0; i < ar.length; i++) {
             System.out.println("contact :" + ar[i]);
         }
     }
 
-    public void add_Contact(Contact[] ar) {
+    public void addContact(Contact[] ar) {
         for (int i = 0; i < ar.length; i++) {
             ar[i] = new Contact();
             System.out.println("enter the firstname :");
@@ -74,7 +71,7 @@ public class AddressBook {
         }
     }
 
-    public void edit_Contact(Contact[] ar) {
+    public void editContact(Contact[] ar) {
         System.out.println("want to edit: (y/n) ");
         String y = sc.next();
         if (y.equalsIgnoreCase("y")) {
@@ -82,36 +79,32 @@ public class AddressBook {
                 System.out.println("enter the name you want to change ");
                 String name = sc.next();
                 if (name.equals(ar[i].getFirst_name())) {
+                    System.out.println("enter the new details : ");
+                    System.out.println("-------------------------------");
+                    System.out.println("enter the firstname :");
+                    ar[i].setFirst_name(sc.next());
+                    System.out.println("enter the lastname :");
+                    ar[i].setLast_name(sc.next());
+                    System.out.println("enter the address :");
+                    ar[i].setAddress(sc.next());
+                    System.out.println("enter the city :");
+                    ar[i].setCity(sc.next());
+                    System.out.println("enter the state :");
+                    ar[i].setState(sc.next());
+                    System.out.println("enter the zip :");
+                    ar[i].setZip(sc.nextInt());
+                    System.out.println("enter the phone_no :");
+                    ar[i].setPhone_no(sc.nextInt());
+                    System.out.println("enter the Email :");
+                    ar[i].setEmail(sc.next());
 
-                    for (int j = 0; j < ar.length; j++) {
-                        System.out.println("enter the new details : ");
-                        System.out.println("-------------------------------");
-                        System.out.println("enter the firstname :");
-                        ar[i].setFirst_name(sc.next());
-                        System.out.println("enter the lastname :");
-                        ar[i].setLast_name(sc.next());
-                        System.out.println("enter the address :");
-                        ar[i].setAddress(sc.next());
-                        System.out.println("enter the city :");
-                        ar[i].setCity(sc.next());
-                        System.out.println("enter the state :");
-                        ar[i].setState(sc.next());
-                        System.out.println("enter the zip :");
-                        ar[i].setZip(sc.nextInt());
-                        System.out.println("enter the phone_no :");
-                        ar[i].setPhone_no(sc.nextInt());
-                        System.out.println("enter the Email :");
-                        ar[i].setEmail(sc.next());
-                        ar[j] = ar[i];
-
-                        System.out.println("edited successfully\n..............");
-                    }
+                    System.out.println("edited successfully\n..............");
                 } else System.out.println("user not found");
             }
-        } else System.out.println("OK..");
+        }
     }
 
-    public void delete_Contact(Contact[] ar) {
+    public void deleteContact(Contact[] ar) {
         System.out.println("want to delete: choose (y/n) ");
         String d = sc.next();
         if (d.equalsIgnoreCase("y")) {
