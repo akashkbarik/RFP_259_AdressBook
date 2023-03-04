@@ -1,5 +1,6 @@
 package Assignment.Day9.AddressBook;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBook {
@@ -8,7 +9,7 @@ public class AddressBook {
     public static void main(String[] args) {
         System.out.println("welcome to the AddressBook program.\n..............................");
 
-        Contact[] contact = new Contact[0];
+        ArrayList<Contact> contact = new ArrayList<>();
         AddressBook addressBook = new AddressBook();
         int choice = 0;
         while (choice != 5) {
@@ -19,6 +20,7 @@ public class AddressBook {
             System.out.println("3: delete contact");
             System.out.println("4: print");
             System.out.println("5: exit");
+            System.out.println("enter your choice : ");
             choice = sc.nextInt();
 
             switch (choice) {
@@ -41,62 +43,63 @@ public class AddressBook {
         }
     }
 
-    public void printContact(Contact[] ar) {
-        for (int i = 0; i < ar.length; i++) {
-            System.out.println("contact :" + ar[i]);
+    public void printContact(ArrayList<Contact> contacts) {
+        System.out.println("Contact : ");
+        for (Contact contact : contacts) {
+            System.out.println(contact + ", ");
         }
     }
 
-    public void addContact(Contact[] ar) {
-        for (int i = 0; i < ar.length; i++) {
-            ar[i] = new Contact();
-            System.out.println("enter the firstname :");
-            ar[i].setFirst_name(sc.next());
-            System.out.println("enter the lastname :");
-            ar[i].setLast_name(sc.next());
-            System.out.println("enter the address :");
-            ar[i].setAddress(sc.next());
-            System.out.println("enter the city :");
-            ar[i].setCity(sc.next());
-            System.out.println("enter the state :");
-            ar[i].setState(sc.next());
-            System.out.println("enter the zip :");
-            ar[i].setZip(sc.nextInt());
-            System.out.println("enter the phone_no :");
-            ar[i].setPhone_no(sc.nextInt());
-            System.out.println("enter the Email :");
-            ar[i].setEmail(sc.next());
-            System.out.println("contact added\n............");
+    public void addContact(ArrayList<Contact> contacts) {
 
-        }
+        System.out.println("enter the firstname :");
+        String firstname = sc.next();
+        System.out.println("enter the lastname :");
+        String lastname = sc.next();
+        System.out.println("enter the address :");
+        String address = sc.next();
+        System.out.println("enter the city :");
+        String city = sc.next();
+        System.out.println("enter the state :");
+        String state = sc.next();
+        System.out.println("enter the zip :");
+        int zip = sc.nextInt();
+        System.out.println("enter the phone_no :");
+        int phone = sc.nextInt();
+        System.out.println("enter the Email :");
+        String email = sc.next();
+        contacts.add(new Contact(firstname, lastname, address, city, state, zip, phone, email));
+        System.out.println("contact added\n............");
+
     }
 
-    public void editContact(Contact[] ar) {
+
+    public void editContact(ArrayList<Contact> contacts) {
         System.out.println("want to edit: (y/n) ");
         String y = sc.next();
         if (y.equalsIgnoreCase("y")) {
-            for (int i = 0; i < ar.length; i++) {
+            for (Contact contact : contacts) {
                 System.out.println("enter the name you want to change ");
                 String name = sc.next();
-                if (name.equals(ar[i].getFirst_name())) {
+                if (name.equals(contact.getFirst_name())) {
                     System.out.println("enter the new details : ");
                     System.out.println("-------------------------------");
                     System.out.println("enter the firstname :");
-                    ar[i].setFirst_name(sc.next());
+                    String firstname = sc.next();
                     System.out.println("enter the lastname :");
-                    ar[i].setLast_name(sc.next());
+                    String lastname = sc.next();
                     System.out.println("enter the address :");
-                    ar[i].setAddress(sc.next());
+                    String address = sc.next();
                     System.out.println("enter the city :");
-                    ar[i].setCity(sc.next());
+                    String city = sc.next();
                     System.out.println("enter the state :");
-                    ar[i].setState(sc.next());
+                    String state = sc.next();
                     System.out.println("enter the zip :");
-                    ar[i].setZip(sc.nextInt());
+                    int zip = sc.nextInt();
                     System.out.println("enter the phone_no :");
-                    ar[i].setPhone_no(sc.nextInt());
+                    int phone = sc.nextInt();
                     System.out.println("enter the Email :");
-                    ar[i].setEmail(sc.next());
+                    String email = sc.next();
 
                     System.out.println("edited successfully\n..............");
                 } else System.out.println("user not found");
@@ -104,20 +107,19 @@ public class AddressBook {
         }
     }
 
-    public void deleteContact(Contact[] ar) {
+    public void deleteContact(ArrayList<Contact> contacts) {
         System.out.println("want to delete: choose (y/n) ");
         String d = sc.next();
         if (d.equalsIgnoreCase("y")) {
 
             System.out.println("enter the name you want to delete ");
             String name = sc.next();
-            for (int i = 0; i < ar.length; i++) {
-                if (name.equals(ar[i].getFirst_name())) {
-                    for (int j = 0; j < ar.length - 1; j++) {
-                        ar[j] = ar[j + 1];
-                    }
+            for (Contact contact : contacts)
+                if (name.equals(contact.getFirst_name())) {
+                    contacts.remove(contact);
                 }
-            }
         }
     }
 }
+
+
