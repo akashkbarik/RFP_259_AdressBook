@@ -206,7 +206,6 @@ public class AddressBook {
 
                 default:
                     System.out.println("Enter valid option");
-
             }
         }
     }
@@ -216,3 +215,5 @@ public class AddressBook {
         details.createAddressBook();
     }
 }
+
+
