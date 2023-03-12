@@ -5,8 +5,25 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class AddressBook {
+    //    variables of contacts
+    public static final int FIRST_NAME = 1;
+    public static final int LAST_NAME = 2;
+    public static final int ADDRESS = 3;
+    public static final int CITY = 4;
+    public static final int STATE = 5;
+    public static final int ZIP = 6;
+    public static final int MOBILE_NUMBER = 7;
+    public static final int EMAIL = 8;
+    //    variables of Address book
+    public static final int ADD_DETAILS = 1;
+    public static final int EDIT_DETAILS = 2;
+    public static final int DELETE_DETAILS = 3;
+    public static final int DISPLAY = 4;
+    public static final int CREATE_ADDRESS_BOOK=1;
+    public static final int EDIT_ADDRESS_BOOK=2;
+    public static final int DISPLAY_ADDRESS_BOOK=3;
     static Scanner sc = new Scanner(System.in);
-    ArrayList<Contact> arrayDetails = new ArrayList<Contact>();
+    ArrayList<Contact> arrayDetails = new ArrayList<>();
     static HashMap<String, ArrayList<Contact>> hashmap = new HashMap<>();
     static AddressBook details = new AddressBook();
 
@@ -47,35 +64,35 @@ public class AddressBook {
                 int edit = sc.nextInt();
 
                 switch (edit) {
-                    case 1:
+                    case FIRST_NAME:
                         System.out.println("Enter first name");
                         arrayDetails.get(i).setFirst_name(sc.next());
                         break;
-                    case 2:
+                    case LAST_NAME:
                         System.out.println("Enter Last name");
                         arrayDetails.get(i).setLast_name(sc.next());
                         break;
-                    case 3:
+                    case ADDRESS:
                         System.out.println("Enter Address");
                         arrayDetails.get(i).setAddress(sc.next());
                         break;
-                    case 4:
+                    case CITY:
                         System.out.println("Enter City");
                         arrayDetails.get(i).setCity(sc.next());
                         break;
-                    case 5:
+                    case STATE:
                         System.out.println("Enter State");
                         arrayDetails.get(i).setState(sc.next());
                         break;
-                    case 6:
+                    case ZIP:
                         System.out.println("Enter Zip");
                         arrayDetails.get(i).setZip(sc.nextInt());
                         break;
-                    case 7:
+                    case MOBILE_NUMBER:
                         System.out.println("Enter Mobile number");
                         arrayDetails.get(i).setPhone_no(sc.nextInt());
                         break;
-                    case 8:
+                    case EMAIL:
                         System.out.println("Enter new E-mail");
                         arrayDetails.get(i).setEmail(sc.next());
                         break;
@@ -115,7 +132,7 @@ public class AddressBook {
             }
 
             switch (choose) {
-                case 1:
+                case CREATE_ADDRESS_BOOK:
                     System.out.println("Enter the name of address book: ");
                     String address_name = sc.next();
 
@@ -136,16 +153,16 @@ public class AddressBook {
                             break;
                         }
                         switch (choose1) {
-                            case 1:
+                            case ADD_DETAILS:
                                 details.addDetails();
                                 break;
-                            case 2:
+                            case EDIT_DETAILS:
                                 details.editDetails();
                                 break;
-                            case 3:
+                            case DELETE_DETAILS:
                                 details.deleteDetails();
                                 break;
-                            case 4:
+                            case DISPLAY:
                                 details.display();
                                 break;
                             default:
@@ -157,7 +174,7 @@ public class AddressBook {
                     }
                     break;
 
-                case 2:
+                case EDIT_ADDRESS_BOOK:
                     System.out.println("Enter the name of address book: ");
                     String address_name_old = sc.next();
 
@@ -176,16 +193,16 @@ public class AddressBook {
                                 break;
                             }
                             switch (choose1) {
-                                case 1:
+                                case ADD_DETAILS:
                                     details.addDetails();
                                     break;
-                                case 2:
+                                case EDIT_DETAILS:
                                     details.editDetails();
                                     break;
-                                case 3:
+                                case DELETE_DETAILS:
                                     details.deleteDetails();
                                     break;
-                                case 4:
+                                case DISPLAY:
                                     details.display();
                                     break;
                                 default:
@@ -200,7 +217,7 @@ public class AddressBook {
                     }
                     break;
 
-                case 3:
+                case DISPLAY_ADDRESS_BOOK:
                     System.out.println(hashmap);
                     break;
 
