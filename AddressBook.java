@@ -1,8 +1,6 @@
 package Assignment.Day9.AddressBook;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class AddressBook {
     //    variables of contacts
@@ -19,13 +17,12 @@ public class AddressBook {
     public static final int EDIT_DETAILS = 2;
     public static final int DELETE_DETAILS = 3;
     public static final int DISPLAY = 4;
-    public static final int CREATE_ADDRESS_BOOK=1;
-    public static final int EDIT_ADDRESS_BOOK=2;
-    public static final int DISPLAY_ADDRESS_BOOK=3;
+    public static final int CREATE_ADDRESS_BOOK = 1;
+    public static final int EDIT_ADDRESS_BOOK = 2;
+    public static final int DISPLAY_ADDRESS_BOOK = 3;
     static Scanner sc = new Scanner(System.in);
-    ArrayList<Contact> arrayDetails = new ArrayList<>();
-    static HashMap<String, ArrayList<Contact>> hashmap = new HashMap<>();
-    static AddressBook details = new AddressBook();
+     static LinkedList<Contact> list = new LinkedList<>();
+
 
     public void addDetails() {
         Contact info = new Contact();
@@ -45,20 +42,22 @@ public class AddressBook {
         info.setZip(sc.nextInt());
         System.out.println("Enter the phone number");
         info.setPhone_no(sc.nextInt());
-        arrayDetails.add(info);
-        System.out.println(arrayDetails);
+        list.add(info);
+        System.out.println(list);
     }
 
     public void display() {
-        System.out.println(arrayDetails);
+
+        System.out.println(list);
     }
 
     public void editDetails() {
+
         System.out.println("Confirm your first name to edit details: ");
         String confirmName = sc.next();
 
-        for (int i = 0; i < arrayDetails.size(); i++) {
-            if (arrayDetails.get(i).getFirst_name().equals(confirmName)) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getFirst_name().equals(confirmName)) {
                 System.out.println("Select form below to change: ");
                 System.out.println("\n1.First Name\n2.Last Name\n3.Address\n4.city\n5.State\n6.Zip\n7.Mobile number\n8.Email");
                 int edit = sc.nextInt();
@@ -66,39 +65,39 @@ public class AddressBook {
                 switch (edit) {
                     case FIRST_NAME:
                         System.out.println("Enter first name");
-                        arrayDetails.get(i).setFirst_name(sc.next());
+                        list.get(i).setFirst_name(sc.next());
                         break;
                     case LAST_NAME:
                         System.out.println("Enter Last name");
-                        arrayDetails.get(i).setLast_name(sc.next());
+                        list.get(i).setLast_name(sc.next());
                         break;
                     case ADDRESS:
                         System.out.println("Enter Address");
-                        arrayDetails.get(i).setAddress(sc.next());
+                        list.get(i).setAddress(sc.next());
                         break;
                     case CITY:
                         System.out.println("Enter City");
-                        arrayDetails.get(i).setCity(sc.next());
+                        list.get(i).setCity(sc.next());
                         break;
                     case STATE:
                         System.out.println("Enter State");
-                        arrayDetails.get(i).setState(sc.next());
+                        list.get(i).setState(sc.next());
                         break;
                     case ZIP:
                         System.out.println("Enter Zip");
-                        arrayDetails.get(i).setZip(sc.nextInt());
+                        list.get(i).setZip(sc.nextInt());
                         break;
                     case MOBILE_NUMBER:
                         System.out.println("Enter Mobile number");
-                        arrayDetails.get(i).setPhone_no(sc.nextInt());
+                        list.get(i).setPhone_no(sc.nextInt());
                         break;
                     case EMAIL:
                         System.out.println("Enter new E-mail");
-                        arrayDetails.get(i).setEmail(sc.next());
+                        list.get(i).setEmail(sc.next());
                         break;
                 }
                 System.out.println("Edited list is: ");
-                System.out.println(arrayDetails);
+                System.out.println(list);
             } else
                 System.out.println("Enter a valid First name");
         }
@@ -107,11 +106,11 @@ public class AddressBook {
     public void deleteDetails() {
         System.out.println("Confirm the first name of the person to delete contact");
         String confirmName = sc.next();
-        for (int i = 0; i < arrayDetails.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
 
-            if (arrayDetails.get(i).getFirst_name().equals(confirmName)) {
-                arrayDetails.remove(i);
-                System.out.println("List After removing" + arrayDetails);
+            if (list.get(i).getFirst_name().equals(confirmName)) {
+                list.remove(i);
+                System.out.println("List After removing" + list);
 
             } else {
                 System.out.println("Enter valid first name");
@@ -119,7 +118,103 @@ public class AddressBook {
         }
     }
 
-    public void createAddressBook() {
+    public void createAddressBookMenu() {
+
+        System.out.println("Enter the name of address book: ");
+        String addressBookName = sc.next();
+        Map<String, LinkedList<Contact>> map = new HashMap<>();
+
+        if (map.containsKey(addressBookName)) {
+            System.out.println("Adress book name exits, enter different name");
+        }
+
+        while (true) {
+            AddressBook details = new AddressBook();
+            System.out.println("Choose what you want to do: ");
+            System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display Contact\n5.Exit");
+            int choose1 = sc.nextInt();
+            if (choose1 == 5) {
+                System.out.println("Exited");
+                break;
+            }
+            switch (choose1) {
+                case ADD_DETAILS:
+                    details.addDetails();
+                    break;
+                case EDIT_DETAILS:
+                    details.editDetails();
+                    break;
+                case DELETE_DETAILS:
+                    details.deleteDetails();
+                    break;
+                case DISPLAY:
+                    details.display();
+                    break;
+                default:
+                    System.out.println("Choose valid option");
+                    break;
+            }
+            map.put(addressBookName, list);
+            for (Map.Entry m : map.entrySet()) {
+                System.out.println(m.getKey() + " " + m.getValue());
+            }
+        }
+    }
+
+    public void editAddressBookMenu() {
+        System.out.println("Enter the name of address book: ");
+        String addressBookOldName = sc.next();
+        Map<String, LinkedList<Contact>> map = new HashMap<>();
+        if (map.containsKey(addressBookOldName)) {
+            list = map.get(addressBookOldName);
+            while (true) {
+                AddressBook book = new AddressBook();
+                System.out.println("Choose what you want to do: ");
+                System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display contact.\n5.Exit");
+                int choose1 = sc.nextInt();
+                if (choose1 == 4) {
+                    System.out.println("Exited");
+                    break;
+                }
+                switch (choose1) {
+                    case ADD_DETAILS:
+                        book.addDetails();
+                        break;
+                    case EDIT_DETAILS:
+                        book.editDetails();
+                        break;
+                    case DELETE_DETAILS:
+                        book.deleteDetails();
+                        break;
+                    case DISPLAY:
+                        book.display();
+                        break;
+                    default:
+                        System.out.println("Choose valid option");
+                        break;
+                }
+                map.put(addressBookOldName, list);
+                for (Map.Entry m : map.entrySet()) {
+                    System.out.println(m.getKey() + " " + m.getValue());
+                }
+            }
+        } else {
+            System.out.println("Enter valid address book name");
+        }
+    }
+
+    public void displayMap() {
+        Map<String, LinkedList<Contact>> map = new HashMap<>();
+        for (Map.Entry m : map.entrySet()) {
+        if (map.isEmpty()){
+            System.out.println("no contact found!");
+        }
+            System.out.println(m.getKey() + " " + m.getValue());
+        }
+
+    }
+
+    public void AddressBookOptions() {
 
         while (true) {
             System.out.println("Choose what you want to do: ");
@@ -133,104 +228,27 @@ public class AddressBook {
 
             switch (choose) {
                 case CREATE_ADDRESS_BOOK:
-                    System.out.println("Enter the name of address book: ");
-                    String address_name = sc.next();
-
-                    if (hashmap.containsKey(address_name)) {
-                        System.out.println("Adress book name exits, enter different name");
-                        break;
-                    }
-
-                    ArrayList<Contact> new_address_book = new ArrayList<>();
-                    arrayDetails = new_address_book;
-                    while (true) {
-                        System.out.println("Choose what you want to do: ");
-                        System.out
-                                .println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display Contact\n5.Exit");
-                        int choose1 = sc.nextInt();
-                        if (choose1 == 5) {
-                            System.out.println("Exited");
-                            break;
-                        }
-                        switch (choose1) {
-                            case ADD_DETAILS:
-                                details.addDetails();
-                                break;
-                            case EDIT_DETAILS:
-                                details.editDetails();
-                                break;
-                            case DELETE_DETAILS:
-                                details.deleteDetails();
-                                break;
-                            case DISPLAY:
-                                details.display();
-                                break;
-                            default:
-                                System.out.println("Choose valid option");
-                                break;
-                        }
-                        hashmap.put(address_name, arrayDetails);
-                        System.out.println(hashmap);
-                    }
+                    createAddressBookMenu();
                     break;
 
                 case EDIT_ADDRESS_BOOK:
-                    System.out.println("Enter the name of address book: ");
-                    String address_name_old = sc.next();
-
-                    if (hashmap.containsKey(address_name_old)) {
-
-                        ArrayList<Contact> old_address_book = new ArrayList<>();
-                        arrayDetails = old_address_book;
-                        arrayDetails = hashmap.get(address_name_old);
-                        while (true) {
-                            System.out.println("Choose what you want to do: ");
-                            System.out.println(
-                                    "1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display contact.\n5.Exit");
-                            int choose1 = sc.nextInt();
-                            if (choose1 == 4) {
-                                System.out.println("Exited");
-                                break;
-                            }
-                            switch (choose1) {
-                                case ADD_DETAILS:
-                                    details.addDetails();
-                                    break;
-                                case EDIT_DETAILS:
-                                    details.editDetails();
-                                    break;
-                                case DELETE_DETAILS:
-                                    details.deleteDetails();
-                                    break;
-                                case DISPLAY:
-                                    details.display();
-                                    break;
-                                default:
-                                    System.out.println("Choose valid option");
-                                    break;
-                            }
-                            hashmap.put(address_name_old, arrayDetails);
-                            System.out.println(hashmap);
-                        }
-                    } else {
-                        System.out.println("Enter valid address book name");
-                    }
+                    editAddressBookMenu();
                     break;
-
                 case DISPLAY_ADDRESS_BOOK:
-                    System.out.println(hashmap);
+                    displayMap();
                     break;
 
                 default:
                     System.out.println("Enter valid option");
+                    break;
             }
         }
     }
 
     public static void main(String[] args) {
+        AddressBook book = new AddressBook();
         System.out.println("Welcome to Address Book Program");
-        details.createAddressBook();
+        book.AddressBookOptions();
     }
 }
-
 
