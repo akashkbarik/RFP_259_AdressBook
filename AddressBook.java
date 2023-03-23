@@ -1,6 +1,7 @@
 package Assignment.Day9.AddressBook;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBook {
     //    variables of contacts
@@ -21,13 +22,16 @@ public class AddressBook {
     public static final int EDIT_ADDRESS_BOOK = 2;
     public static final int DISPLAY_ADDRESS_BOOK = 3;
     static Scanner sc = new Scanner(System.in);
-     static LinkedList<Contact> list = new LinkedList<>();
+    static LinkedList<Contact> list = new LinkedList<>();
 
+    static Map<String, LinkedList<Contact>> map = new HashMap<>();
 
     public void addDetails() {
+
         Contact info = new Contact();
         System.out.println("Enter the first name");
-        info.setFirst_name(sc.next());
+        String fname = sc.next();
+        info.setFirst_name(fname);
         System.out.println("Enter the last name");
         info.setLast_name(sc.next());
         System.out.println("Enter the address");
@@ -42,14 +46,30 @@ public class AddressBook {
         info.setZip(sc.nextInt());
         System.out.println("Enter the phone number");
         info.setPhone_no(sc.nextInt());
+
         list.add(info);
-        System.out.println(list);
+        System.out.println("list before removing duplicates: ");
+        list.forEach(System.out::println);
+        List<Contact> uniqueContacts = list
+                .stream()
+                .distinct()
+                .collect(Collectors.toList());
+        System.out.println("list after removing dupllicates : ");
+        uniqueContacts.forEach(System.out::println);
+
     }
+
 
     public void display() {
 
-        System.out.println(list);
+        System.out.println("list are : \n");
+        if (list.isEmpty()) {
+            System.out.println("empty!");
+        } else {
+            System.out.println(list + "\n");
+        }
     }
+
 
     public void editDetails() {
 
@@ -122,14 +142,13 @@ public class AddressBook {
 
         System.out.println("Enter the name of address book: ");
         String addressBookName = sc.next();
-        Map<String, LinkedList<Contact>> map = new HashMap<>();
 
         if (map.containsKey(addressBookName)) {
+            list = map.get(addressBookName);
             System.out.println("Adress book name exits, enter different name");
         }
 
         while (true) {
-            AddressBook details = new AddressBook();
             System.out.println("Choose what you want to do: ");
             System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display Contact\n5.Exit");
             int choose1 = sc.nextInt();
@@ -139,36 +158,35 @@ public class AddressBook {
             }
             switch (choose1) {
                 case ADD_DETAILS:
-                    details.addDetails();
+                    addDetails();
                     break;
                 case EDIT_DETAILS:
-                    details.editDetails();
+                    editDetails();
                     break;
                 case DELETE_DETAILS:
-                    details.deleteDetails();
+                    deleteDetails();
                     break;
                 case DISPLAY:
-                    details.display();
+                    display();
                     break;
                 default:
                     System.out.println("Choose valid option");
                     break;
             }
+
             map.put(addressBookName, list);
-            for (Map.Entry m : map.entrySet()) {
-                System.out.println(m.getKey() + " " + m.getValue());
-            }
         }
     }
 
     public void editAddressBookMenu() {
         System.out.println("Enter the name of address book: ");
         String addressBookOldName = sc.next();
-        Map<String, LinkedList<Contact>> map = new HashMap<>();
+
+
+        AddressBook book = new AddressBook();
         if (map.containsKey(addressBookOldName)) {
             list = map.get(addressBookOldName);
             while (true) {
-                AddressBook book = new AddressBook();
                 System.out.println("Choose what you want to do: ");
                 System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display contact.\n5.Exit");
                 int choose1 = sc.nextInt();
@@ -193,7 +211,7 @@ public class AddressBook {
                         System.out.println("Choose valid option");
                         break;
                 }
-                map.put(addressBookOldName, list);
+                map.put(addressBookOldName, book.list);
                 for (Map.Entry m : map.entrySet()) {
                     System.out.println(m.getKey() + " " + m.getValue());
                 }
@@ -204,14 +222,14 @@ public class AddressBook {
     }
 
     public void displayMap() {
-        Map<String, LinkedList<Contact>> map = new HashMap<>();
-        for (Map.Entry m : map.entrySet()) {
-        if (map.isEmpty()){
-            System.out.println("no contact found!");
-        }
-            System.out.println(m.getKey() + " " + m.getValue());
-        }
 
+
+        if (map.isEmpty()) {
+            System.out.println("no contact found!");
+        } else
+            for (Map.Entry m : map.entrySet()) {
+                System.out.println(m.getKey() + " " + m.getValue());
+            }
     }
 
     public void AddressBookOptions() {

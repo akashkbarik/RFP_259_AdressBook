@@ -1,5 +1,7 @@
 package Assignment.Day9.AddressBook;
 
+import java.util.Objects;
+
 public class Contact {
     String first_name;
     String last_name;
@@ -42,11 +44,17 @@ public class Contact {
         Email = email;
     }
 
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contact)) return false;
+        Contact contact = (Contact) o;
+        return this.getFirst_name().equals(contact.getFirst_name());
+    }
 
     @Override
     public String toString() {
-        return "Contact | " +
+        return "\ndetails of "+first_name+" : | " +
                 "first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", address='" + address + '\'' +
@@ -56,6 +64,11 @@ public class Contact {
                 ", phone_no=" + phone_no +
                 ", Email='" + Email + '\'' +
                 " |";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first_name, last_name, address, city, state, zip, phone_no, Email);
     }
 
     public String getFirst_name() {
