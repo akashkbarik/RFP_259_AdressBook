@@ -21,6 +21,9 @@ public class AddressBook {
     public static final int CREATE_ADDRESS_BOOK = 1;
     public static final int EDIT_ADDRESS_BOOK = 2;
     public static final int DISPLAY_ADDRESS_BOOK = 3;
+    private static final int SEARCH = 5;
+    private static final int BYCITY = 1;
+    private static final int BYSTATE = 2;
     static Scanner sc = new Scanner(System.in);
     static LinkedList<Contact> list = new LinkedList<>();
 
@@ -52,13 +55,13 @@ public class AddressBook {
         list.forEach(System.out::println);
         List<Contact> uniqueContacts = list
                 .stream()
+                .filter(i -> !(i.getFirst_name().equals(fname)))
                 .distinct()
                 .collect(Collectors.toList());
         System.out.println("list after removing dupllicates : ");
         uniqueContacts.forEach(System.out::println);
 
     }
-
 
     public void display() {
 
@@ -150,9 +153,9 @@ public class AddressBook {
 
         while (true) {
             System.out.println("Choose what you want to do: ");
-            System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display Contact\n5.Exit");
+            System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display Contact\n5.search person\n6.Exit");
             int choose1 = sc.nextInt();
-            if (choose1 == 5) {
+            if (choose1 == 6) {
                 System.out.println("Exited");
                 break;
             }
@@ -169,6 +172,7 @@ public class AddressBook {
                 case DISPLAY:
                     display();
                     break;
+
                 default:
                     System.out.println("Choose valid option");
                     break;
@@ -182,7 +186,6 @@ public class AddressBook {
         System.out.println("Enter the name of address book: ");
         String addressBookOldName = sc.next();
 
-
         AddressBook book = new AddressBook();
         if (map.containsKey(addressBookOldName)) {
             list = map.get(addressBookOldName);
@@ -190,7 +193,7 @@ public class AddressBook {
                 System.out.println("Choose what you want to do: ");
                 System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display contact.\n5.Exit");
                 int choose1 = sc.nextInt();
-                if (choose1 == 4) {
+                if (choose1 == 5) {
                     System.out.println("Exited");
                     break;
                 }
@@ -207,11 +210,12 @@ public class AddressBook {
                     case DISPLAY:
                         book.display();
                         break;
+
                     default:
                         System.out.println("Choose valid option");
                         break;
                 }
-                map.put(addressBookOldName, book.list);
+                map.put(addressBookOldName, list);
                 for (Map.Entry m : map.entrySet()) {
                     System.out.println(m.getKey() + " " + m.getValue());
                 }
@@ -236,7 +240,7 @@ public class AddressBook {
 
         while (true) {
             System.out.println("Choose what you want to do: ");
-            System.out.println("1.Create new address book.\n2.Edit existing address book.\n3.Display all address books.\n4.exit");
+            System.out.println("1.Create new address book.\n2.Edit existing address book.\n3.Display all address books.\n4\n4.exit");
             int choose = sc.nextInt();
 
             if (choose == 4) {
@@ -255,6 +259,38 @@ public class AddressBook {
                 case DISPLAY_ADDRESS_BOOK:
                     displayMap();
                     break;
+                case SEARCH:
+                    System.out.println("Choose what you want to do: ");
+                    System.out.println("1.search by city.\n2.search by state.\n3.exit");
+                    int choose2 = sc.nextInt();
+                    if (choose2==3){
+                        System.out.println("exited");
+                        break;
+                    }
+                    switch (choose2){
+                        case BYCITY:
+                            System.out.println("enter a city name : ");
+                            String city= sc.next();
+                            List<Contact> uniqueContacts = list
+                                    .stream()
+                                    .filter(i -> i.getCity().startsWith(city))
+                                    .collect(Collectors.toList());
+                            System.out.println("list of people from city "+city+ "are :");
+                            uniqueContacts.forEach(System.out::println);
+                            break;
+                        case BYSTATE:
+                            System.out.println("enter a state name : ");
+                            String state= sc.next();
+                            List<Contact> uniqueContacts2 = list
+                                    .stream()
+                                    .filter(i -> i.getState().startsWith(state))
+                                    .collect(Collectors.toList());
+                            System.out.println("list of people from city "+state+ "are :");
+                            uniqueContacts2.forEach(System.out::println);
+                            break;
+                    }
+
+
 
                 default:
                     System.out.println("Enter valid option");
