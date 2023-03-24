@@ -21,7 +21,7 @@ public class AddressBook {
     public static final int CREATE_ADDRESS_BOOK = 1;
     public static final int EDIT_ADDRESS_BOOK = 2;
     public static final int DISPLAY_ADDRESS_BOOK = 3;
-    private static final int SEARCH = 5;
+    private static final int SEARCH = 4;
     private static final int BYCITY = 1;
     private static final int BYSTATE = 2;
     static Scanner sc = new Scanner(System.in);
@@ -240,10 +240,10 @@ public class AddressBook {
 
         while (true) {
             System.out.println("Choose what you want to do: ");
-            System.out.println("1.Create new address book.\n2.Edit existing address book.\n3.Display all address books.\n4\n4.exit");
+            System.out.println("1.Create new address book.\n2.Edit existing address book.\n3.Display all address books.\n4.Search\n5.exit");
             int choose = sc.nextInt();
 
-            if (choose == 4) {
+            if (choose == 5) {
                 System.out.println("Exited");
                 break;
             }
@@ -278,6 +278,8 @@ public class AddressBook {
                                     .collect(Collectors.toList());
                             System.out.println("list of people from city "+city+ "are :");
                             uniqueContacts.forEach(System.out::println);
+                           long count= uniqueContacts.stream().count();
+                            System.out.println("count of person is : "+count);
                             break;
                         case BYSTATE:
                             System.out.println("enter a state name : ");
@@ -289,10 +291,10 @@ public class AddressBook {
                                     .collect(Collectors.toList());
                             System.out.println("list of people from city "+state+ "are :");
                             uniqueContacts2.forEach(System.out::println);
+                            long count1= uniqueContacts2.stream().count();
+                            System.out.println("count of person is : "+count1);
                             break;
                     }
-
-
 
                 default:
                     System.out.println("Enter valid option");
