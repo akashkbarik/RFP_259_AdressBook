@@ -55,6 +55,7 @@ public class AddressBook {
         list.forEach(System.out::println);
         List<Contact> uniqueContacts = list
                 .stream()
+                .sorted()
                 .filter(i -> !(i.getFirst_name().equals(fname)))
                 .distinct()
                 .collect(Collectors.toList());
@@ -275,6 +276,7 @@ public class AddressBook {
                                     .stream()
                                     .flatMap(people->people.getValue().stream())
                                     .filter(i -> i.getCity().equals(city))
+                                    .sorted()
                                     .collect(Collectors.toList());
                             System.out.println("list of people from city "+city+ "are :");
                             uniqueContacts.forEach(System.out::println);
@@ -288,6 +290,7 @@ public class AddressBook {
                                     .stream()
                                     .flatMap(people->people.getValue().stream())
                                     .filter(i -> i.getState().equals(state))
+                                    .sorted()
                                     .collect(Collectors.toList());
                             System.out.println("list of people from city "+state+ "are :");
                             uniqueContacts2.forEach(System.out::println);
@@ -295,7 +298,6 @@ public class AddressBook {
                             System.out.println("count of person is : "+count1);
                             break;
                     }
-
                 default:
                     System.out.println("Enter valid option");
                     break;
