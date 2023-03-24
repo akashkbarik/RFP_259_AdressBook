@@ -271,9 +271,10 @@ public class AddressBook {
                         case BYCITY:
                             System.out.println("enter a city name : ");
                             String city= sc.next();
-                            List<Contact> uniqueContacts = list
+                            List<Contact> uniqueContacts = map.entrySet()
                                     .stream()
-                                    .filter(i -> i.getCity().startsWith(city))
+                                    .flatMap(people->people.getValue().stream())
+                                    .filter(i -> i.getCity().equals(city))
                                     .collect(Collectors.toList());
                             System.out.println("list of people from city "+city+ "are :");
                             uniqueContacts.forEach(System.out::println);
@@ -281,9 +282,10 @@ public class AddressBook {
                         case BYSTATE:
                             System.out.println("enter a state name : ");
                             String state= sc.next();
-                            List<Contact> uniqueContacts2 = list
+                            List<Contact> uniqueContacts2 = map.entrySet()
                                     .stream()
-                                    .filter(i -> i.getState().startsWith(state))
+                                    .flatMap(people->people.getValue().stream())
+                                    .filter(i -> i.getState().equals(state))
                                     .collect(Collectors.toList());
                             System.out.println("list of people from city "+state+ "are :");
                             uniqueContacts2.forEach(System.out::println);
