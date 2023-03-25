@@ -22,8 +22,9 @@ public class AddressBook {
     public static final int EDIT_ADDRESS_BOOK = 2;
     public static final int DISPLAY_ADDRESS_BOOK = 3;
     private static final int SEARCH = 4;
-    private static final int BYCITY = 1;
-    private static final int BYSTATE = 2;
+    private static final int BY_CITY = 1;
+    private static final int BY_STATE = 2;
+    private static final int BY_ZIP = 3;
     static Scanner sc = new Scanner(System.in);
     static LinkedList<Contact> list = new LinkedList<>();
 
@@ -55,13 +56,11 @@ public class AddressBook {
         list.forEach(System.out::println);
         List<Contact> uniqueContacts = list
                 .stream()
-                .sorted()
-                .filter(i -> !(i.getFirst_name().equals(fname)))
                 .distinct()
                 .collect(Collectors.toList());
+
         System.out.println("list after removing dupllicates : ");
         uniqueContacts.forEach(System.out::println);
-
     }
 
     public void display() {
@@ -70,7 +69,11 @@ public class AddressBook {
         if (list.isEmpty()) {
             System.out.println("empty!");
         } else {
-            System.out.println(list + "\n");
+            list.stream()
+                    .sorted(Comparator.comparing(contact -> contact.getFirst_name()))
+//                    .sorted(Comparator.comparing(Contact::getFirst_name))
+                    .collect(Collectors.toList())
+                    .forEach(System.out::println);
         }
     }
 
@@ -147,8 +150,9 @@ public class AddressBook {
         System.out.println("Enter the name of address book: ");
         String addressBookName = sc.next();
 
+
         if (map.containsKey(addressBookName)) {
-            list = map.get(addressBookName);
+
             System.out.println("Adress book name exits, enter different name");
         }
 
@@ -189,7 +193,6 @@ public class AddressBook {
 
         AddressBook book = new AddressBook();
         if (map.containsKey(addressBookOldName)) {
-            list = map.get(addressBookOldName);
             while (true) {
                 System.out.println("Choose what you want to do: ");
                 System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display contact.\n5.Exit");
@@ -217,7 +220,7 @@ public class AddressBook {
                         break;
                 }
                 map.put(addressBookOldName, list);
-                for (Map.Entry m : map.entrySet()) {
+                for (Map.Entry<String,LinkedList<Contact>> m : map.entrySet()) {
                     System.out.println(m.getKey() + " " + m.getValue());
                 }
             }
@@ -232,7 +235,7 @@ public class AddressBook {
         if (map.isEmpty()) {
             System.out.println("no contact found!");
         } else
-            for (Map.Entry m : map.entrySet()) {
+            for (Map.Entry<String, LinkedList<Contact>> m : map.entrySet()) {
                 System.out.println(m.getKey() + " " + m.getValue());
             }
     }
@@ -262,41 +265,57 @@ public class AddressBook {
                     break;
                 case SEARCH:
                     System.out.println("Choose what you want to do: ");
-                    System.out.println("1.search by city.\n2.search by state.\n3.exit");
+                    System.out.println("1.search by city.\n2.search by state.\n3.search by zip\n4.exit");
                     int choose2 = sc.nextInt();
-                    if (choose2==3){
+                    if (choose2 == 4) {
                         System.out.println("exited");
                         break;
                     }
-                    switch (choose2){
-                        case BYCITY:
+                    switch (choose2) {
+                        case BY_CITY:
                             System.out.println("enter a city name : ");
-                            String city= sc.next();
+                            String city = sc.next();
                             List<Contact> uniqueContacts = map.entrySet()
                                     .stream()
-                                    .flatMap(people->people.getValue().stream())
+                                    .flatMap(people -> people.getValue().stream())
                                     .filter(i -> i.getCity().equals(city))
-                                    .sorted()
+                                    .sorted(Comparator.comparing(Contact::getCity))
                                     .collect(Collectors.toList());
-                            System.out.println("list of people from city "+city+ "are :");
+                            System.out.println("list of people from city " + city + "are : ");
                             uniqueContacts.forEach(System.out::println);
-                           long count= uniqueContacts.stream().count();
-                            System.out.println("count of person is : "+count);
+                            long count = uniqueContacts.stream().count();
+                            System.out.println("count of person is : " + count);
                             break;
-                        case BYSTATE:
+
+                        case BY_STATE:
                             System.out.println("enter a state name : ");
-                            String state= sc.next();
+                            String state = sc.next();
                             List<Contact> uniqueContacts2 = map.entrySet()
                                     .stream()
-                                    .flatMap(people->people.getValue().stream())
+                                    .flatMap(people -> people.getValue().stream())
                                     .filter(i -> i.getState().equals(state))
-                                    .sorted()
+                                    .sorted(Comparator.comparing(Contact::getCity))
                                     .collect(Collectors.toList());
-                            System.out.println("list of people from city "+state+ "are :");
+                            System.out.println("list of people from city " + state + "are :");
                             uniqueContacts2.forEach(System.out::println);
-                            long count1= uniqueContacts2.stream().count();
-                            System.out.println("count of person is : "+count1);
+                            long count1 = uniqueContacts2.stream().count();
+                            System.out.println("count of person is : " + count1);
                             break;
+
+                        case BY_ZIP:
+                            System.out.println("enter a zip : ");
+                            int zip = sc.nextInt();
+                            List<Contact> uniqueContacts3 = map.entrySet()
+                                    .stream()
+                                    .flatMap(people -> people.getValue().stream())
+                                    .filter(i -> i.getZip()==(zip))
+                                    .sorted(Comparator.comparing(Contact::getCity))
+                                    .collect(Collectors.toList());
+                            System.out.println("list of people from city " + zip + "are :");
+                            uniqueContacts3.forEach(System.out::println);
+                            long count2 = uniqueContacts3.stream().count();
+                            System.out.println("count of person is : " + count2);
+
                     }
                 default:
                     System.out.println("Enter valid option");

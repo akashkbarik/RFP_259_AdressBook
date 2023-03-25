@@ -46,15 +46,15 @@ public class Contact {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Contact)) return false;
+        if (o == null) return false;
+        if (!Contact.class.isInstance(o)) return false;
         Contact contact = (Contact) o;
-        return this.getFirst_name().equals(contact.getFirst_name());
+        return this.first_name.equals(contact.first_name);
     }
 
     @Override
     public String toString() {
-        return "\ndetails of "+first_name+" : | " +
+        return "\ndetails of " + first_name + " : | " +
                 "first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", address='" + address + '\'' +
@@ -68,7 +68,7 @@ public class Contact {
 
     @Override
     public int hashCode() {
-        return Objects.hash(first_name, last_name, address, city, state, zip, phone_no, Email);
+        return this.first_name.hashCode();
     }
 
     public String getFirst_name() {
@@ -102,5 +102,6 @@ public class Contact {
     public String getEmail() {
         return Email;
     }
+
 }
 
